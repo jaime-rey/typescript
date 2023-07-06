@@ -1,16 +1,25 @@
 "use strict";
-let myName;
-let meaningOfLife;
-let isLoading;
-let album;
-myName = 'jaime';
-meaningOfLife = 42;
-isLoading = true;
-album = 'van hallen';
-album = 42;
-const sum = (a, b) => {
-    return a + b;
+let stringArr = ['one', 'hey', 'Dave'];
+let guitars = ['Strat', 'Les Paul', 5150];
+let mixedData = ['EVH', 1984, true];
+stringArr[0] = '42';
+stringArr.push('hey');
+guitars[0] = 1984;
+console.log(guitars.unshift('Strat'));
+let test = [];
+let bands = [];
+bands.push('Van Halen');
+//Tuple
+let myTuple = ['Dave', 42, true];
+console.log(myTuple);
+//Objects
+let myObj;
+myObj = [];
+console.log(typeof myObj);
+myObj = bands;
+myObj = {};
+const exampleObj = {
+    prop1: 'Dave',
+    prop2: true,
+    prop3: 42
 };
-let postId;
-let isActive;
-let re = /\w+/g;
