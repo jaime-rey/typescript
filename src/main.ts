@@ -28,5 +28,5 @@ myObj = {}
 const exampleObj = {
     prop1: 'Dave',
     prop2: true,
-    prop3: 42
+    prop3: 44
 }
