@@ -1,8 +1,16 @@
 "use strict";
-let username = 'Jaime';
-console.log("hello " + username + "!");
-let a = 12;
-let b = '6';
-let c = 2;
-console.log(a / b);
-console.log(c * b);
+let myName;
+let meaningOfLife;
+let isLoading;
+let album;
+myName = 'jaime';
+meaningOfLife = 42;
+isLoading = true;
+album = 'van hallen';
+album = 42;
+const sum = (a, b) => {
+    return a + b;
+};
+let postId;
+let isActive;
+let re = /\w+/g;
