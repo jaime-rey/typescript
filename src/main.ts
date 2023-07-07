@@ -1,66 +1,47 @@
-let stringArr = ['one', 'hey', 'Dave']
+// Type Aliases
+type stringOrNumber = string | number
+type stringOrNumberArray = stringOrNumber[]
 
-let guitars = ['Strat', 'Les Paul', 5150]
-
-let mixedData = ['EVH', 1984, true]
-
-stringArr[0] = '42'
-stringArr.push('hey')
-
-guitars[0] = 1984
-console.log(guitars.unshift('Strat'))
-
-let test = []
-let bands: string[] = []
-bands.push('Van Halen')
-
-//Tuple
-let myTuple: [string, number, boolean] = ['Dave', 42, true]
-console.log(myTuple)
-
-//Objects
-let myObj: object
-myObj = []
-console.log(typeof myObj)
-myObj = bands
-myObj = {}
-
-const exampleObj = {
-    prop1: 'Dave',
-    prop2: true,
-    prop3: 44
-}
-
-interface Guitarist {
+type Guitarist = {
     name?: string,
     active?: boolean,
-    albums: (string | number)[]
+    albums: stringOrNumberArray
 }
 
-let evh: Guitarist = {
-    name: 'Eddie',
-    albums: [1984, 5150, 'OU812']
-}
-console.log(evh)
+type mathFunction = (x: number, y: number) => number
 
-let jp: Guitarist = {
-    name: 'Jimmy',
-    active: true,
-    albums: ['I', 'II', 'IV']
-}
 
-const greetGuitarist = (guitarist: Guitarist) => {
-    return `Hello ${guitarist.name?.toUpperCase()}`
+// Literal types
+let myName: 'Dave'
+
+let userName: 'Dave' | 'John' | 'Amy'
+userName = 'Amy'
+
+//functions
+let add: mathFunction = function (a, b) {
+    return a + b
 }
 
-console.log(greetGuitarist(jp))
-// Enums
-
-enum Grade {
-    U = 42,
-    D,
-    C,
-    B,
-    A
+const logMsg = (message: any): void => console.log(message)
+let subtract = function (c: number, d: number):
+    number {
+    return c - d
 }
-console.log(Grade.B)
+logMsg('hello!')
+logMsg(add(2, 3))
+logMsg(null)
+logMsg(subtract(1, 2))
+
+let multiply: mathFunction = function (c, d) {
+    return c * d
+}
+logMsg(multiply(9, 8))
+
+const total = (a: number, ...nums: number[]): number => {
+    return a + nums.reduce((prev, curr) => prev + curr)
+}
+logMsg(total(3, 6, 8, 34, -123))
+
+const createError = (errMsg: string) => {
+    throw new Error(errMsg)
+}
