@@ -1,49 +1,67 @@
 "use strict";
-// Index signatures
-/* interface TransactionObj {
-    Pizza: number,
-    Books: number,
-    Job: number
-} */
-const todaysTransactions = {
-    Pizza: -10,
-    Books: -5,
-    Job: 50
+const echo = (arg) => arg;
+console.log(echo('hello'));
+console.log(echo(1));
+console.log(echo(true));
+const isObj = (arg) => {
+    return (typeof arg === 'object' && !Array.isArray(arg) && arg !== null);
 };
-console.log(todaysTransactions.Pizza);
-console.log(todaysTransactions['Books']);
-let prop = 'Pizza';
-console.log(todaysTransactions[prop]);
-const todaysNet = (transactions) => {
-    let total = 0;
-    for (const transaction in transactions) {
-        total += transactions[transaction];
+console.log(isObj(true));
+console.log(isObj('John'));
+console.log(isObj([1, 2, 3]));
+console.log(isObj({ name: 'John' }));
+console.log(isObj(null));
+const isTrue = (arg) => {
+    if (Array.isArray(arg) && !arg.length) {
+        return { arg, is: false };
     }
-    return total;
+    if (isObj(arg) && !Object.keys(arg).length) {
+        return { arg, is: false };
+    }
+    return { arg, is: !!arg };
 };
-console.log(todaysNet(todaysTransactions));
-console.log(todaysTransactions['Dave']);
-const student = {
-    name: "Doug",
-    GPA: 3.5,
-    classes: [100, 200]
+console.log(isTrue(false));
+console.log(isTrue(true));
+console.log(isTrue(0));
+console.log(isTrue(-0));
+console.log(isTrue(1));
+console.log(isTrue('Dave'));
+console.log(isTrue(''));
+console.log(isTrue(null));
+console.log(isTrue(undefined));
+console.log(isTrue({}));
+console.log(isTrue([]));
+console.log(isTrue({ name: 'Dave' }));
+const checkBoolValue = (arg) => {
+    if (Array.isArray(arg) && !arg.length) {
+        return { value: arg, is: false };
+    }
+    if (isObj(arg) && !Object.keys(arg).length) {
+        return { value: arg, is: false };
+    }
+    return { value: arg, is: !!arg };
 };
-// console.log(student.test)
-for (const key in student) {
-    console.log(`${key}: ${student[key]}`);
+const processUser = (user) => {
+    // process the user with logic here
+    return user;
+};
+console.log(processUser({ id: 1, name: 'Dave' }));
+// console.log(processUser({ name: 'Dave' }))
+const getUsersProperty = (users, key) => {
+    return users.map(user => user[key]);
+};
+class StateObject {
+    constructor(value) {
+        this.data = value;
+    }
+    get state() {
+        return this.data;
+    }
+    set state(value) {
+        this.data = value;
+    }
 }
-Object.keys(student).forEach(key => {
-    console.log(student[key]);
-});
-const logStudentKey = (student, key) => {
-    console.log(`Student ${key}: ${student[key]}`);
-};
-logStudentKey(student, 'GPA');
-const monthlyIncomes = {
-    salary: 500,
-    bonus: 100,
-    sidehustle: 250
-};
-for (const revenue in monthlyIncomes) {
-    console.log(monthlyIncomes[revenue]);
-}
+const store = new StateObject("john");
+console.log(store.state);
+const myState = new StateObject([15]);
+console.log(myState.state);
