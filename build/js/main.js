@@ -1,67 +1,72 @@
 "use strict";
-const echo = (arg) => arg;
-console.log(echo('hello'));
-console.log(echo(1));
-console.log(echo(true));
-const isObj = (arg) => {
-    return (typeof arg === 'object' && !Array.isArray(arg) && arg !== null);
+//utitlity types
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
 };
-console.log(isObj(true));
-console.log(isObj('John'));
-console.log(isObj([1, 2, 3]));
-console.log(isObj({ name: 'John' }));
-console.log(isObj(null));
-const isTrue = (arg) => {
-    if (Array.isArray(arg) && !arg.length) {
-        return { arg, is: false };
-    }
-    if (isObj(arg) && !Object.keys(arg).length) {
-        return { arg, is: false };
-    }
-    return { arg, is: !!arg };
+const updateAssignment = (assign, propsToUpdate) => {
+    return Object.assign(Object.assign({}, assign), propsToUpdate);
 };
-console.log(isTrue(false));
-console.log(isTrue(true));
-console.log(isTrue(0));
-console.log(isTrue(-0));
-console.log(isTrue(1));
-console.log(isTrue('Dave'));
-console.log(isTrue(''));
-console.log(isTrue(null));
-console.log(isTrue(undefined));
-console.log(isTrue({}));
-console.log(isTrue([]));
-console.log(isTrue({ name: 'Dave' }));
-const checkBoolValue = (arg) => {
-    if (Array.isArray(arg) && !arg.length) {
-        return { value: arg, is: false };
-    }
-    if (isObj(arg) && !Object.keys(arg).length) {
-        return { value: arg, is: false };
-    }
-    return { value: arg, is: !!arg };
+const assign1 = {
+    studentId: "compsci123",
+    title: "Final Project",
+    grade: 0
 };
-const processUser = (user) => {
-    // process the user with logic here
-    return user;
+console.log(assign1);
+console.log(updateAssignment(assign1, { grade: 95 }));
+console.log(assign1);
+const assignGraded = updateAssignment(assign1, { grade: 95 });
+console.log(assignGraded);
+//Required and readonly fields
+const recordAssignment = (assign) => {
+    //send to database, whatever
+    return assign;
 };
-console.log(processUser({ id: 1, name: 'Dave' }));
-// console.log(processUser({ name: 'Dave' }))
-const getUsersProperty = (users, key) => {
-    return users.map(user => user[key]);
+const assignVerified = Object.assign(Object.assign({}, assignGraded), { verified: true });
+recordAssignment(Object.assign(Object.assign({}, assignGraded), { verified: true }));
+//Record
+const hexColorMap = {
+    red: "FF0000", green: "00FF00", blue: "0000FF"
 };
-class StateObject {
-    constructor(value) {
-        this.data = value;
-    }
-    get state() {
-        return this.data;
-    }
-    set state(value) {
-        this.data = value;
-    }
-}
-const store = new StateObject("john");
-console.log(store.state);
-const myState = new StateObject([15]);
-console.log(myState.state);
+const finalGrades = {
+    Sara: "B",
+    Kelly: "U",
+};
+const gradeData = {
+    Sara: { assign1: 85, assign2: 93 },
+    Kelly: { assign1: 85, assign2: 12 }
+};
+const score = {
+    studentId: "k123",
+    grade: 85
+};
+const preview = {
+    studentId: "k123",
+    title: "Final Project"
+};
+const myName = null;
+//Return type
+// type newAssign = { title: string, points: number }
+const createNewAssign = (title, points) => {
+    return { title, points };
+};
+const tsAssign = createNewAssign('Utility Types', 100);
+console.log(tsAssign);
+const assignArgs = ["Generics", 100];
+const tsAssign2 = createNewAssign(...assignArgs);
+console.log(tsAssign2);
+const fetchUsers = () => __awaiter(void 0, void 0, void 0, function* () {
+    const data = yield fetch('https://jsonplaceholder.typicode.com/users').then(res => {
+        return res.json();
+    }).catch(err => {
+        if (err instanceof Error)
+            console.log(err.message);
+    });
+    return data;
+});
+fetchUsers().then(users => console.log(users));

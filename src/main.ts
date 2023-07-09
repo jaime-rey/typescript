@@ -1,87 +1,135 @@
-const echo = <T>(arg: T): T => arg
-console.log(echo('hello'))
-console.log(echo(1))
-console.log(echo(true))
+//utitlity types
 
-const isObj = <T>(arg: T): boolean => {
-    return (typeof arg === 'object' && !Array.isArray(arg) && arg !== null)
+//partial
+
+interface Assignment {
+    studentId: string,
+    title: string,
+    grade: number,
+    verified?: boolean
 }
 
-console.log(isObj(true))
-console.log(isObj('John'))
-console.log(isObj([1, 2, 3]))
-console.log(isObj({ name: 'John' }))
-console.log(isObj(null))
-
-const isTrue = <T>(arg: T): { arg: T, is: boolean } => {
-    if (Array.isArray(arg) && !arg.length) {
-        return { arg, is: false }
-    }
-    if (isObj(arg) && !Object.keys(arg as keyof T).length) {
-        return { arg, is: false }
-    }
-    return { arg, is: !!arg }
+const updateAssignment = (assign: Assignment, propsToUpdate: Partial<Assignment>):
+    Assignment => {
+    return { ...assign, ...propsToUpdate }
 }
 
-console.log(isTrue(false))
-console.log(isTrue(true))
-console.log(isTrue(0))
-console.log(isTrue(-0))
-console.log(isTrue(1))
-console.log(isTrue('Dave'))
-console.log(isTrue(''))
-console.log(isTrue(null))
-console.log(isTrue(undefined))
-console.log(isTrue({}))
-console.log(isTrue([]))
-console.log(isTrue({ name: 'Dave' }))
+const assign1: Assignment = {
+    studentId: "compsci123",
+    title: "Final Project",
+    grade: 0
+}
+console.log(assign1)
+console.log(updateAssignment(assign1, { grade: 95 }))
+console.log(assign1)
+const assignGraded: Assignment = updateAssignment(assign1, { grade: 95 })
+console.log(assignGraded)
 
-interface Boolcheck<T> {
-    value: T,
-    is: boolean
+//Required and readonly fields
+
+const recordAssignment = (assign: Required<Assignment>): Assignment => {
+    //send to database, whatever
+    return assign
 }
 
-const checkBoolValue = <T>(arg: T): Boolcheck<T> => {
-    if (Array.isArray(arg) && !arg.length) {
-        return { value: arg, is: false }
-    }
-    if (isObj(arg) && !Object.keys(arg as keyof T).length) {
-        return { value: arg, is: false }
-    }
-    return { value: arg, is: !!arg }
+const assignVerified: Readonly<Assignment> = { ...assignGraded, verified: true }
+
+recordAssignment({ ...assignGraded, verified: true })
+
+//Record
+const hexColorMap: Record<string, string> = {
+    red: "FF0000", green: "00FF00", blue: "0000FF"
 }
 
-interface HasID {
-    id: number
+type Students = "Sara" | "Kelly"
+type LetterGrades = "A" | "B" | "C" | "D" | "U"
+
+const finalGrades: Record<Students, LetterGrades> = {
+    Sara: "B",
+    Kelly: "U",
 }
 
-const processUser = <T extends HasID>(user: T): T => {
-    // process the user with logic here
-    return user
+interface Grades {
+    assign1: number,
+    assign2: number,
 }
 
-console.log(processUser({ id: 1, name: 'Dave' }))
-// console.log(processUser({ name: 'Dave' }))
-
-const getUsersProperty = <T extends HasID, K extends keyof T>
-    (users: T[], key: K): T[K][] => {
-    return users.map(user => user[key])
+const gradeData: Record<Students, Grades> = {
+    Sara: { assign1: 85, assign2: 93 },
+    Kelly: { assign1: 85, assign2: 12 }
 }
 
-class StateObject<T> {
-    private data: T
-    constructor(value: T) {
-        this.data = value
-    }
-    get state(): T {
-        return this.data
-    }
-    set state(value: T) {
-        this.data = value
-    }
+//Pick and omit
+type AssignResult = Pick<Assignment, "studentId" | "grade">
+
+const score: AssignResult = {
+    studentId: "k123",
+    grade: 85
 }
 
-const store = new StateObject("john")
-console.log(store.state)
-const myState = new StateObject<(string | number | boolean)[]>([15])
-console.log(myState.state)
+type AssignPreview = Omit<Assignment, "grade" | "verified">
+
+const preview: AssignPreview = {
+    studentId: "k123",
+    title: "Final Project"
+}
+
+//exclude and extract
+
+type adjustedGrade = Exclude<LetterGrades, "U">
+type highGrades = Extract<LetterGrades, "A" | "B">
+
+//Nonnullable
+
+type AllPossibleGrades = 'Dave' | 'John' | null | undefined
+type NamesOnly = NonNullable<AllPossibleGrades>
+
+const myName: AllPossibleGrades = null
+
+//Return type
+
+// type newAssign = { title: string, points: number }
+
+
+const createNewAssign = (title: string, points: number) => {
+    return { title, points }
+}
+
+
+type NewAssign = ReturnType<typeof createNewAssign>
+
+const tsAssign: NewAssign = createNewAssign('Utility Types', 100)
+console.log(tsAssign)
+
+// Parameters
+
+type AssignParams = Parameters<typeof createNewAssign>
+
+const assignArgs: AssignParams = ["Generics", 100]
+
+const tsAssign2: NewAssign = createNewAssign(...assignArgs)
+
+console.log(tsAssign2)
+
+// Awaited - help us with the ReturnType of a Promise
+interface User {
+    id: number,
+    name: string,
+    username: string,
+    email: string
+}
+
+const fetchUsers = async (): Promise<User[]> => {
+    const data = await fetch(
+        'https://jsonplaceholder.typicode.com/users'
+    ).then(res => {
+        return res.json()
+    }).catch(err => {
+        if (err instanceof Error) console.log(err.message)
+    })
+    return data
+}
+
+type FetchUsersReturnType = ReturnType<typeof fetchUsers>
+
+fetchUsers().then(users => console.log(users))
