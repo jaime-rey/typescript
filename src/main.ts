@@ -1,33 +1,87 @@
-type One = string
-type Two = string | number
-type Three = 'hello'
+// Index signatures
 
-let a: One = 'hello'
-let b = a as Two //less specific
-let c = a as Three //more specific
+interface TransactionObj {
+    readonly [index: string]: number
 
-let d = <One>'world'
-let e = <One | number>'world'
-
-const addOrConcat = (a: number, b: number, c: 'add' | 'concat'): number | string => {
-    if (c === 'add') return a + b
-    return '' + a + b
 }
 
-(10 as unknown) as string
+/* interface TransactionObj {
+    Pizza: number,
+    Books: number,
+    Job: number
+} */
 
-let myVal: string = addOrConcat(2, 2, 'concat') as string
-console.log(myVal)
+const todaysTransactions: TransactionObj = {
+    Pizza: -10,
+    Books: -5,
+    Job: 50
+}
 
-let nextVal: number = addOrConcat(2, 2, 'add') as number
-console.log(nextVal)
-//uuy 
+console.log(todaysTransactions.Pizza)
+console.log(todaysTransactions['Books'])
 
-//The DOM
-const img = document.querySelector('img')!
-const myImg = document.getElementById('#img') as HTMLImageElement
-const nextImg = <HTMLImageElement>document.getElementById('#img')
+let prop: string = 'Pizza'
 
-/* img.src
-myImg.src
-nextImg.src */
+console.log(todaysTransactions[prop])
+
+const todaysNet = (transactions: TransactionObj):
+    number => {
+    let total: number = 0
+    for (const transaction in transactions) {
+        total += transactions[transaction]
+    }
+    return total
+}
+
+console.log(todaysNet(todaysTransactions))
+
+console.log(todaysTransactions['Dave'])
+
+/////////////////////////////////////////////
+
+interface Student {
+    // [key: string]: string | number | number[] | undefined,
+    name: string,
+    GPA: number,
+    classes?: number[]
+}
+
+const student: Student = {
+    name: "Doug",
+    GPA: 3.5,
+    classes: [100, 200]
+}
+
+// console.log(student.test)
+
+for (const key in student) {
+    console.log(`${key}: ${student[key as keyof Student]}`)
+}
+
+Object.keys(student).forEach(key => {
+    console.log(student[key as keyof typeof student])
+})
+
+const logStudentKey = (student: Student, key: keyof Student): void => {
+    console.log(`Student ${key}: ${student[key]}`)
+}
+
+logStudentKey(student, 'GPA')
+/* 
+interface Incomes {
+    [key: string]: number
+}
+ */
+type Streams = 'salary' | 'bonus' | 'sidehustle'
+
+type Incomes = Record<Streams, number | string>
+
+const monthlyIncomes: Incomes = {
+    salary: 500,
+    bonus: 100,
+    sidehustle: 250
+}
+
+for (const revenue in monthlyIncomes) {
+    console.log(monthlyIncomes[revenue as keyof Incomes])
+}

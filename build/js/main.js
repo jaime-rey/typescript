@@ -1,24 +1,49 @@
 "use strict";
-let a = 'hello';
-let b = a; //less specific
-let c = a; //more specific
-let d = 'world';
-let e = 'world';
-const addOrConcat = (a, b, c) => {
-    if (c === 'add')
-        return a + b;
-    return '' + a + b;
+// Index signatures
+/* interface TransactionObj {
+    Pizza: number,
+    Books: number,
+    Job: number
+} */
+const todaysTransactions = {
+    Pizza: -10,
+    Books: -5,
+    Job: 50
 };
-10;
-let myVal = addOrConcat(2, 2, 'concat');
-console.log(myVal);
-let nextVal = addOrConcat(2, 2, 'add');
-console.log(nextVal);
-//uuy 
-//The DOM
-const img = document.querySelector('img');
-const myImg = document.getElementById('#img');
-const nextImg = document.getElementById('#img');
-/* img.src
-myImg.src
-nextImg.src */ 
+console.log(todaysTransactions.Pizza);
+console.log(todaysTransactions['Books']);
+let prop = 'Pizza';
+console.log(todaysTransactions[prop]);
+const todaysNet = (transactions) => {
+    let total = 0;
+    for (const transaction in transactions) {
+        total += transactions[transaction];
+    }
+    return total;
+};
+console.log(todaysNet(todaysTransactions));
+console.log(todaysTransactions['Dave']);
+const student = {
+    name: "Doug",
+    GPA: 3.5,
+    classes: [100, 200]
+};
+// console.log(student.test)
+for (const key in student) {
+    console.log(`${key}: ${student[key]}`);
+}
+Object.keys(student).forEach(key => {
+    console.log(student[key]);
+});
+const logStudentKey = (student, key) => {
+    console.log(`Student ${key}: ${student[key]}`);
+};
+logStudentKey(student, 'GPA');
+const monthlyIncomes = {
+    salary: 500,
+    bonus: 100,
+    sidehustle: 250
+};
+for (const revenue in monthlyIncomes) {
+    console.log(monthlyIncomes[revenue]);
+}
